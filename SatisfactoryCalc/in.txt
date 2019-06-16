@@ -1,0 +1,6 @@
+100,copper wire
+100,concrete
+100,plates
+20,r plates
+50,cables
+100,iron rods
