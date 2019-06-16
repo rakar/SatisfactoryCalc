@@ -25,19 +25,6 @@ namespace SatisfactoryCalc
 
         private void calc_b_Click(object sender, EventArgs e)
         {
-            CalcSession session = new CalcSession(info);
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                StringBuilder o = session.doCalc(ofd.FileName);
-
-                SaveFileDialog sfd = new SaveFileDialog();
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    File.WriteAllText(sfd.FileName, o.ToString());
-                }
-            }
         }
 
         private void cleanRecipieBookToolStripMenuItem_Click(object sender, EventArgs e)
@@ -68,6 +55,24 @@ namespace SatisfactoryCalc
                     info.Book.LoadRecipes(package.Workbook);
                 }
             }
+        }
+
+        private void calculateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalcSession session = new CalcSession(info);
+            Out.Text = session.doCalc(In.Lines).ToString();
+
+            //OpenFileDialog ofd = new OpenFileDialog();
+            //if (ofd.ShowDialog() == DialogResult.OK)
+            //{
+            //    StringBuilder o = session.doCalc(ofd.FileName);
+
+            //    SaveFileDialog sfd = new SaveFileDialog();
+            //    if (sfd.ShowDialog() == DialogResult.OK)
+            //    {
+            //        File.WriteAllText(sfd.FileName, o.ToString());
+            //    }
+            //}
         }
     }
 }

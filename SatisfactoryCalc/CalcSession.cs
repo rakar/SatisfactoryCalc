@@ -25,9 +25,9 @@ namespace SatisfactoryCalc
             buildMaterial = new Dictionary<string, ConfiguredItem>();
         }
 
-        public StringBuilder doCalc(string inFile)
+        public StringBuilder doCalc(string[] requirements)
         {
-            string[] requirements = File.ReadAllLines(inFile);
+            //string[] requirements = File.ReadAllLines(inFile);
             StringBuilder o = new StringBuilder();
 
             int line = 0;
