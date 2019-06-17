@@ -59,10 +59,33 @@ namespace SatisfactoryCalc
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                using (ExcelPackage package = new ExcelPackage(new FileInfo(ofd.FileName)))
-                {
-                    info.Book.LoadRecipes(package.Workbook);
-                }
+                OpenRecipeBook(ofd.FileName);
+            }
+        }
+
+        private void OpenRecipeBook(string filename)
+        {
+            Properties.Settings.Default.RecipeBookName = filename;
+            using (ExcelPackage package = new ExcelPackage(new FileInfo(filename)))
+            {
+                info.Book.LoadRecipes(package.Workbook);
+            }
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.InText = In.Text;
+            Properties.Settings.Default.OutText = Out.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            In.Text = Properties.Settings.Default.InText;
+            Out.Text = Properties.Settings.Default.OutText;
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.RecipeBookName))
+            {
+                OpenRecipeBook(Properties.Settings.Default.RecipeBookName);
             }
         }
     }

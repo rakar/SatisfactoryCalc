@@ -27,7 +27,6 @@ namespace SatisfactoryCalc
 
         public StringBuilder doCalc(string[] requirements)
         {
-            //string[] requirements = File.ReadAllLines(inFile);
             StringBuilder o = new StringBuilder();
 
             int line = 0;
@@ -78,7 +77,7 @@ namespace SatisfactoryCalc
                     break;
                 }
             }
-            //string[] flds = reqTxt.Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
             if (p>0 && p+1<reqTxt.Length)
             {
                 string qtyText = reqTxt.Substring(0, p).Split('(')[0];
