@@ -67,10 +67,23 @@ namespace SatisfactoryCalc
 
         private void explodeInitialRequirements(StringBuilder o, int line, string reqTxt)
         {
-            string[] flds = reqTxt.Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            if (flds.Length >= 2)
+            reqTxt = reqTxt.Trim();
+            char[] chars = reqTxt.ToArray();
+            int p = -1;
+            for(int i=0;i<chars.Length;i++)
             {
-                string itemName = flds[1];
+                if(char.IsWhiteSpace(chars[i]) || chars[i]==',')
+                {
+                    p = i;
+                    break;
+                }
+            }
+            //string[] flds = reqTxt.Split(new char[] { ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            if (p>0 && p+1<reqTxt.Length)
+            {
+                string qtyText = reqTxt.Substring(0, p).Split('(')[0];
+                string itemName = reqTxt.Substring(p+1);
+
                 Item item = info.Book.FindItem(itemName);
                 if (item == null)
                 {
@@ -79,9 +92,9 @@ namespace SatisfactoryCalc
                 else
                 {
                     double amount = 0;
-                    if (!double.TryParse(flds[0], out amount))
+                    if (!double.TryParse(qtyText, out amount))
                     {
-                        o.AppendLine($"Error bad amount: {flds[0]} on line: {line}");
+                        o.AppendLine($"Error bad amount: {qtyText} on line: {line}");
                     }
                     else
                     {
