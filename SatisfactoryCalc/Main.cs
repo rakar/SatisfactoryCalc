@@ -66,9 +66,16 @@ namespace SatisfactoryCalc
         private void OpenRecipeBook(string filename)
         {
             Properties.Settings.Default.RecipeBookName = filename;
-            using (ExcelPackage package = new ExcelPackage(new FileInfo(filename)))
+            try
             {
-                info.Book.LoadRecipes(package.Workbook);
+                using (ExcelPackage package = new ExcelPackage(new FileInfo(filename)))
+                {
+                    info.Book.LoadRecipes(package.Workbook);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Unable to process recipe book ({filename}): {e.Message}");
             }
         }
 

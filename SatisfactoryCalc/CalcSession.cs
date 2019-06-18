@@ -51,7 +51,16 @@ namespace SatisfactoryCalc
             o.AppendLine("Structural Requirements:");
             foreach (var m in structuralMaterial)
             {
-                o.AppendLine($"{Math.Ceiling(m.Value.Amount)}({m.Value.Amount}) {m.Key}");
+                StringBuilder brkout = new StringBuilder();
+                if (m.Value.Recipe != null)
+                {
+                    brkout.Append("fed with ");
+                    foreach (var i in m.Value.Recipe.Ingredients)
+                    {
+                        brkout.Append($"{i.Item.Name} {i.Amount}/{m.Value.Amount * i.Amount}  ");
+                    }
+                }
+                o.AppendLine($"{Math.Ceiling(m.Value.Amount)}({m.Value.Amount}) {m.Key} {brkout}");
                 explodeBuildRecipe(m.Value.Item, Math.Ceiling(m.Value.Amount));
             }
             o.AppendLine();
@@ -161,7 +170,7 @@ namespace SatisfactoryCalc
 
             if (r.Building != null)
             {
-                updateMaterial(structuralMaterial, r.Building, amount / r.Production, $"{item.Name} {r.Building.Name}");
+                updateMaterial(structuralMaterial, r.Building, amount / r.Production, $"{item.Name} {r.Building.Name}", r);
                 if (info.Book.ContainsKey(r.Building))
                 {
                     double power = info.Book[r.Building].Power;
@@ -209,7 +218,8 @@ namespace SatisfactoryCalc
             }
         }
 
-        private void updateMaterial(Dictionary<string, ConfiguredItem> mat, Item item, double amount, string configuredName = "")
+        private void updateMaterial(Dictionary<string, ConfiguredItem> mat, Item item, double amount,
+            string configuredName = "", Recipe recipe = null)
         {
             if (configuredName == "") configuredName = item.Name;
             if (mat.ContainsKey(configuredName))
@@ -218,7 +228,8 @@ namespace SatisfactoryCalc
             }
             else
             {
-                mat.Add(configuredName, new ConfiguredItem() { Name = configuredName, Item = item, Amount = amount });
+                mat.Add(configuredName, new ConfiguredItem() { Name = configuredName, Item = item,
+                    Amount = amount, Recipe = recipe});
             }
         }
     }

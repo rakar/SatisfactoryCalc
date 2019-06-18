@@ -11,5 +11,6 @@ namespace SatisfactoryCalc
         public string Name { get; set; }
         public Item Item { get; set; }
         public double Amount { get; set; }
+        public Recipe Recipe { get; set; }
     }
 }
